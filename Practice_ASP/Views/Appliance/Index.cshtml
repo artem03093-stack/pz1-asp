@@ -1,0 +1,28 @@
+﻿@using Practice_ASP.Data.Models;
+@model IEnumerable<Appliance>;
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>WarrantyInMonths</th>
+            <th>IdCategory</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Price₴</td>
+                <td>@item.Description</td>
+                <td>@item.WarrantyInMonths міс.</td>
+                <td>@item.IdCategory</td>
+            </tr>
+        }
+    </tbody>
+</table>
