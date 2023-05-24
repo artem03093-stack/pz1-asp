@@ -1,0 +1,56 @@
+﻿@model Practice_ASP.Data.Controllers.ApplianceDetail;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детальна інформація</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Інтернет магазин побутової техніки</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="@Url.Action("Index", "Category")">Каталог</a>
+                </li>
+            </ul>
+            <a href="#" class="btn btn-outline-primary ml-2">Кошик</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>@Model.appliance.Name</h1>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Опис</h5>
+                <p class="card-text">@Model.appliance.Description</p>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Ціна</h5>
+                <p class="card-text">@Model.appliance.Price грн</p>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Категорія</h5>
+                <h6 class="card-subtitle mb-2 text-muted">@Model.category.Name</h6>
+                <p class="card-text">@Model.category.Description</p>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

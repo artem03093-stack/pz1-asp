@@ -7,8 +7,11 @@ namespace Practice_ASP
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IAppliance, ApplianceMock>();
-            services.AddTransient<ICategory, CategoryMock>();
+            var categoryMock = new CategoryMock();
+            var applianceMock = new ApplianceMock(categoryMock);
+
+            services.AddSingleton<ICategory>(categoryMock);
+            services.AddSingleton<IAppliance>(applianceMock);
             services.AddMvc(options =>
             {
                 options.EnableEndpointRouting = false;
@@ -21,7 +24,10 @@ namespace Practice_ASP
             app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseMvcWithDefaultRoute();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+            });
         }
     }
 }

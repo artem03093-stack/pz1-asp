@@ -8,5 +8,6 @@
         public string? Description { get; set; }
         public int WarrantyInMonths { get; set; }
         public int IdCategory { get; set; }
+        public string ImgUrl { get; set; }
     }
 }

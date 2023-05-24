@@ -1,0 +1,18 @@
+﻿body {
+    background-color: beige;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-img-top {
+    max-height: 200px;
+    object-fit: contain;
+}
+
+.card-description {
+    flex-grow: 1;
+    overflow: hidden;
+}
