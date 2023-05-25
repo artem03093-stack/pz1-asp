@@ -79,7 +79,7 @@
 
             const image = document.createElement("img");
             image.className = "card-img-top img-fluid custom-img";
-            image.src = appliance.imgUrl;
+            image.src = appliance.ImgUrl;
             image.alt = appliance.name;
             card.appendChild(image);
 
@@ -89,12 +89,12 @@
 
             const title = document.createElement("h5");
             title.className = "card-title";
-            title.textContent = appliance.name;
+            title.textContent = appliance.Name;
             cardBody.appendChild(title);
 
             const description = document.createElement("p");
             description.className = "card-text card-description";
-            description.textContent = appliance.description;
+            description.textContent = appliance.Description;
             cardBody.appendChild(description);
 
             const buyButton = document.createElement("a");
@@ -105,7 +105,7 @@
 
             const detailButton = document.createElement("a");
             detailButton.className = "btn btn-warning";
-            detailButton.href = "/Appliance/ApplianceDetails?id=" + encodeURIComponent(appliance.id);
+            detailButton.href = "/Appliance/ApplianceDetails?id=" + encodeURIComponent(appliance.Id);
             detailButton.textContent = "Детальніше";
             cardBody.appendChild(detailButton);
 

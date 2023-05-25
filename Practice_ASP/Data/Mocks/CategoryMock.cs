@@ -24,13 +24,13 @@ namespace Practice_ASP.Data.Mocks
             return categories;
         }
 
-        public void AddApplianceToCategory(Appliance appliance)
-        {
-            var category = categories.FirstOrDefault(c => c.Id == appliance.IdCategory);
-            if(category != null)
-            {
-                category.Appliances.Add(appliance);
-            }
-        }
+        //public void AddApplianceToCategory(Appliance appliance)
+        //{
+        //    var category = categories.FirstOrDefault(c => c.Id == appliance.IdCategory);
+        //    if(category != null)
+        //    {
+        //        category.Appliances.Add(appliance);
+        //    }
+        //}
     }
 }

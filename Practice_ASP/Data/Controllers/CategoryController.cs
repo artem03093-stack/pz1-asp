@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Practice_ASP.Data.Interfaces;
-using Practice_ASP.Data.Models;
 
 namespace Practice_ASP.Data.Controllers
 {
@@ -28,7 +28,7 @@ namespace Practice_ASP.Data.Controllers
             else
             {
                 var appliances = _category.GetApplianceByCategory(category);
-                return Json(appliances);
+                return Content(JsonConvert.SerializeObject(appliances), "application/json");
             }
         }
     }

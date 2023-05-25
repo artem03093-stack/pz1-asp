@@ -6,6 +6,6 @@ namespace Practice_ASP.Data.Interfaces
     {
         IEnumerable<Category> GetCategories();
         IEnumerable<Appliance> GetApplianceByCategory(Category category);
-        void AddApplianceToCategory(Appliance appliance);
+        //void AddApplianceToCategory(Appliance appliance);
     }
 }

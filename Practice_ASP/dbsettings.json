@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=applianciesstore;User=root;Password=123321scream;"
+  }
+}
