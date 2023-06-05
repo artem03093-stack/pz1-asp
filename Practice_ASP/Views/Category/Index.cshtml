@@ -23,7 +23,7 @@
                     <a class="nav-link" href="@Url.Action("Index", "Category")">Каталог</a>
                 </li>
             </ul>
-            <a href="#" class="btn btn-outline-primary ml-2">Кошик</a>
+            <a href="@Url.Action("Index", "Cart")" class="btn btn-outline-primary ml-2">Кошик</a>
         </div>
     </nav>
 
@@ -53,7 +53,7 @@
                 .then(data => {
                     const appliancesContainer = document.getElementById("appliancesContainer");
                     appliancesContainer.innerHTML = "";
-                    console.log(data);
+
                     if (data.length === 0) {
                         const noResultsMessage = document.createElement("h1");
                         noResultsMessage.textContent = "Натисніть кнопку категорії зліва";
@@ -99,7 +99,9 @@
 
             const buyButton = document.createElement("a");
             buyButton.className = "btn btn-primary";
-            buyButton.href = "#";
+            buyButton.addEventListener("click", function () {
+                addToCart(appliance.Id);
+            });
             buyButton.textContent = "Купить";
             cardBody.appendChild(buyButton);
 
@@ -110,6 +112,22 @@
             cardBody.appendChild(detailButton);
 
             return card;
+        }
+
+        function addToCart(applianceId) {
+            fetch(`/Cart/AddToCart?applianceId=${encodeURIComponent(applianceId)}`, {
+                method: "POST"
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log("Товар доданий до кошика.");
+                    } else {
+                        console.error("Помилка при додаванні товару в кошик.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Помилка під час виконання запиту.", error);
+                });
         }
     </script>
 </body>

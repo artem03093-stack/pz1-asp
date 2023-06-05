@@ -23,6 +23,7 @@ namespace Practice_ASP
 
             services.AddScoped<ICategory, CategoryRepository>();
             services.AddScoped<IAppliance, ApplianceRepository>();
+            services.AddSingleton<ICart, CartRepository>();
             services.AddMvc(options =>
             {
                 options.EnableEndpointRouting = false;

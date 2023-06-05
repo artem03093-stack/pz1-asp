@@ -1,0 +1,179 @@
+﻿@using Practice_ASP.Data.Models;
+@model Dictionary<Appliance, int>;
+@{
+    var totalSum = ViewData["TotalSum"] as decimal?;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кошик</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Интернет магазин побутової техніки</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="@Url.Action("Index", "Category")">Каталог</a>
+                </li>
+            </ul>
+            <a href="#" class="btn btn-outline-primary ml-2">Кошик</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>Кошик</h1>
+
+        @if (!Model.Any())
+        {
+            <h3>
+                Ваш кошик порожній
+            </h3>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Количество</th>
+                        <th>Цена</th>
+                        <th>Сумма</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var (item, count) in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>
+                                <div class="quantity-container">
+                                    <button class="btn btn-sm quantity-btn decrease-btn" data-id="@item.Id">-</button>
+                                    <span class="quantity-value" data-id="@item.Id">@count</span>
+                                    <button class="btn btn-sm quantity-btn increase-btn" data-id="@item.Id">+</button>
+                                </div>
+                            </td>
+                            <td>@item.Price</td>
+                            <td>@(item.Price * count)</td>
+                            <td>
+                                <button class="btn btn-danger btn-sm remove-item" data-id="@item.Id">Видалити</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="text-left">
+                <p class="font-weight-light">Сума замовлення: @totalSum₴</p>
+            </div>
+            <div class="text-right">
+                <a href="@Url.Action("Index", "Ordering")" class="btn btn-primary">Оформити замовлення</a>
+                <button class="btn btn-outline-danger" id="clear-cart-btn">Очистити кошик</button>
+            </div>
+        }
+    </div>
+
+    <script src="~/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const quantityButtons = document.querySelectorAll(".quantity-btn");
+            quantityButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const applianceId = button.dataset.id;
+                    const quantityElement = button.parentNode.querySelector(".quantity-value");
+                    let isAdd;
+
+                    if (button.classList.contains("increase-btn")) {
+                        isAdd = true;
+                    } else if (button.classList.contains("decrease-btn")) {
+                        if(parseInt(quantityElement.textContent) == 1) return;
+                        isAdd = false;
+                    }
+                    updateCartItemQuantity(applianceId, isAdd);
+                });
+            });
+
+            const removeButtons = document.querySelectorAll(".remove-item");
+            removeButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const applianceId = button.dataset.id;
+
+                    removeCartItem(applianceId);
+                });
+            });
+
+            const clearCartButton = document.getElementById("clear-cart-btn");
+            clearCartButton.addEventListener("click", function () {
+                clearCart();
+            });
+        });
+
+        function updateCartItemQuantity(applianceId, isAdd) {
+            const cartItem = {
+                ApplianceId: applianceId,
+                IsAdd: isAdd
+            };
+
+            fetch(`/Cart/UpdateQuantity`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(cartItem)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload()
+                    } else {
+                        console.error("Помилка при оновленні кількості товару.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Помилка під час виконання запиту.", error);
+                });
+        }
+
+        function removeCartItem(applianceId) {
+            fetch(`/Cart/RemoveFromCart?applianceId=${encodeURIComponent(applianceId)}`, {
+                method: "POST"
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload()
+                } else {
+                    console.error("Помилка при видаленні товару з кошика.");
+                }
+            })
+            .catch(error => {
+                console.error("Помилка під час виконання запиту.", error);
+            });
+        }
+
+        function clearCart() {
+            fetch("/Cart/ClearCart", {
+                method: "POST"
+            })
+            .then(response => {
+                if (response.ok) {
+                   location.reload()
+                } else {
+                    console.error("Помилка під час очищення кошика.");
+                }
+            })
+            .catch(error => {
+                console.error("Помилка під час виконання запиту.", error);
+            });
+        }
+    </script>
+</body>
+</html>
